@@ -28,8 +28,8 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="icon" href="link to favicon" />
-          <link href="link to font" rel="stylesheet"/>
+          <link rel="icon" href="link to favicon" />  
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
         </Head>
         <body>
           <Main />
