@@ -4,21 +4,10 @@ import { useState, useEffect } from 'react';
 const useStyles = createUseStyles(() => ({  
   flexContainer: {
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',  
-    flexDirection: 'row',
-    // flexWrap: 'wrap',
-  },
-  // item:{
-  //   width: '100%',
-  // },
-  break:{
-    width: '100%'
-  },
+  },  
   container:{
     fontWeight: 'bolder',
-    padding: [15, 25], 
+    padding: [15, 25],     
   },
   button: ({color, backgroundColor, hoverColor, hoverBackgroundColor, borderColor}) => ({    
     fontWeight: 'bolder',
@@ -30,7 +19,8 @@ const useStyles = createUseStyles(() => ({
     "&:hover":{
       backgroundColor: hoverBackgroundColor,
       color: hoverColor,  
-      borderColor: hoverBackgroundColor   
+      borderColor: hoverBackgroundColor, 
+      cursor: 'pointer',    
     }
   }), 
 }));
@@ -38,35 +28,25 @@ const useStyles = createUseStyles(() => ({
 export default function Home() {
   const theme = useTheme();  
   const generalClass = useStyles({});
-  const decrementClass = useStyles({color: theme.black, backgroundColor: theme.normal, hoverColor: theme.white, hoverBackgroundColor: theme.hoverNormal, borderColor: theme.black });
-  const incrementClass = useStyles({color: theme.white, backgroundColor: theme.primary, hoverColor: theme.white, hoverBackgroundColor: theme.hoverPrimary, borderColor: theme.primary});
+  const normalColorClass = useStyles({color: theme.black, backgroundColor: theme.normal, hoverColor: theme.white, hoverBackgroundColor: theme.hoverNormal, borderColor: theme.black });
+  const primaryColorClass = useStyles({color: theme.white, backgroundColor: theme.primary, hoverColor: theme.white, hoverBackgroundColor: theme.hoverPrimary, borderColor: theme.primary});
   
   const [count, setCount] = useState(0);  
   const [message, setMessage] = useState();  
-  // useEffect(() => {  
-  //   getRepoInfo(count);
-  // });
  
   const incrementButtonClickHandler = e => {
     if(count < 7){    
       setCount(count + 1) 
       getRepoInfo(count + 1);  
       setMessage('Loading information.') 
-    } 
-    else{
-      getRepoInfo(count);
-    }                      
+    }                    
    }
    const decrementButtonClickHandler = e => {
     if(count > 0){      
       setCount(count - 1)      
       getRepoInfo(count - 1);
       setMessage('Loading information.') 
-    }     
-    else{
-   
-      getRepoInfo(count);
-    }           
+    }                 
    }
    
    const [repoData, setRepoData] = useState(0);
@@ -91,8 +71,7 @@ export default function Home() {
       updateRepoInfo(data); 
       setMessage('');            
     })     
-    .catch(error => setRepoData(error));
-    setMessage('');             
+    .catch(error => setMessage(error));              
    }   
    
    const updateRepoInfo = (data) => {
@@ -100,55 +79,51 @@ export default function Home() {
    } 
 
   return (
-    <> 
-    <div className={generalClass.flexContainer}> 
- 
-        <button className={decrementClass.button} onClick={decrementButtonClickHandler}> 
+    <>   
+    <div className={generalClass.flexContainer}>  
+        <button className={normalColorClass.button} onClick={decrementButtonClickHandler}> 
           - DECREMENT  
         </button>
         <div className={generalClass.container}>Counter <span id='counter'>{count}</span></div>
-        <button className={incrementClass.button} onClick={incrementButtonClickHandler}> 
+        <button className={primaryColorClass.button} onClick={incrementButtonClickHandler}> 
           + INCREMENT  
         </button> 
-        <div className={generalClass.break}></div>    
-        <table>
-          <tr>
-            <td>
-            Message:
-            </td>
-            <td>
-            {repoData.message}
-            {repoData.error}
-            {message}
-            </td>
-          </tr>
-          <tr>
-            <td>
-            Full name:
-            </td>
-            <td>
-            {repoData.full_name}
-            </td>
-          </tr>
-          <tr>
-            <td>
-            Description:
-            </td>
-            <td>
-            {repoData.description}
-            </td>
-          </tr>
-          <tr>
-            <td>
-            Amount of stars:
-            </td>
-            <td>
-            {repoData.stargazers_count}
-            </td>
-          </tr>         
-        </table>
-      
-    </div>    
+     </div> 
+      <table>
+        <tr>
+          <td>
+          Message:
+          </td>
+          <td>
+          {repoData.message}      
+          {message}
+          </td>
+        </tr>
+        <tr>
+          <td>
+          Full name:
+          </td>
+          <td>
+          {repoData.full_name}
+          </td>
+        </tr>
+        <tr>
+          <td>
+          Description:
+          </td>
+          <td>
+          {repoData.description}
+          </td>
+        </tr>
+        <tr>
+          <td>
+          Amount of stars:
+          </td>
+          <td>
+          {repoData.stargazers_count}
+          </td>
+        </tr>         
+      </table>         
     </> 
   );
 }
